@@ -1,6 +1,6 @@
 #Copyright MaoMaoCake, 2020
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QMessageBox, QMainWindow, QWidget
+from PyQt5.QtWidgets import QMessageBox
 
 
 class Ui_MainWindow(object):
@@ -109,8 +109,9 @@ class Ui_MainWindow(object):
                 if num == 3:
                     pw.append(sample(lower, 1)[0])
         except:
-            QMessageBox.warning(self.window, "test alert", " Something went wrong please check your input and try again",
+            QMessageBox.warning(self.window,"Generation Error", " Something went wrong please check your input and try again",
                             QMessageBox.Ok)
+            self.lenght.setText("")
         for x in pw:
             password = password + str(x)
         return password
@@ -129,8 +130,9 @@ class Ui_MainWindow(object):
 
             os.system("password.txt")
         except:
-            QMessageBox.warning(self.window, "test alert", " Something went wrong please check your input and try again",
+            QMessageBox.warning(self.window, "Generation Error", " Something went wrong please check your input and try again",
                             QMessageBox.Ok)
+            self.times.setText("")
 if __name__ == "__main__":
     import sys
 
