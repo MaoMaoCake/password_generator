@@ -20,6 +20,10 @@ class Ui_MainWindow(object):
         self.specialcharacter.setGeometry(QtCore.QRect(100, 260, 200, 40))
         self.specialcharacter.setObjectName("specialcharacter")
 
+        self.number_box = QtWidgets.QCheckBox(self.centralwidget)
+        self.number_box.setGeometry(QtCore.QRect(100, 200, 200, 40))
+        self.number_box.setObjectName("number_box")
+
         self.generate = QtWidgets.QPushButton(self.centralwidget)
         self.generate.setGeometry(QtCore.QRect(320, 450, 91, 31))
         self.generate.setObjectName("generate")
@@ -79,6 +83,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.uppercase.setText(_translate("MainWindow", "UpperCase"))
         self.specialcharacter.setText(_translate("MainWindow", "Special Characters"))
+        self.number_box.setText(_translate("MainWindow", "Numbers"))
         self.generate.setText(_translate("MainWindow", "Generate"))
         self.generate2.setText(_translate("MainWindow","Generate to file"))
         self.label1.setText(_translate("MainWindow", "How many digits do you want?"))
@@ -91,15 +96,17 @@ class Ui_MainWindow(object):
         upper = {i.upper() for i in lower}
         special = {"!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "-", "+", "{", "}", "[", "]", "|", ";", ":",
                    "'", '"', ",", "<", ".", ">", "/", "?", "`", "~"}
+        number = {1,2,3,4,5,6,7,8,9,0}
         password = ""
         pw = []
 
         upper_check = self.uppercase.isChecked()
 
         special_check = self.specialcharacter.isChecked()
+        numcheck = self.number_box.isChecked()
         try:
             while len(pw) < int(self.lenght.text()):
-                num = randint(1, 3)
+                num = randint(1, 4)
                 if num == 1:
                     if special_check == True:
                         pw.append(sample(special, 1)[0])
@@ -108,6 +115,9 @@ class Ui_MainWindow(object):
                         pw.append(sample(upper, 1)[0])
                 if num == 3:
                     pw.append(sample(lower, 1)[0])
+                if num == 4:
+                    if numcheck == True:
+                        pw.append(sample(number, 1)[0])
         except:
             QMessageBox.warning(self.window,"Generation Error", " Something went wrong please check your input and try again",
                             QMessageBox.Ok)
