@@ -105,8 +105,8 @@ class Ui_MainWindow(object):
         self.time_txt.setText(_translate("MainWindow", "Estimated time needed to crack the password:"))
 
     def dual_funct(self):
-        self.estimate.setText(str(self.estimate_time()) + " seconds")
         self.label.setText(self.generatepw())
+        self.estimate.setText(str(self.estimate_time()) + " seconds")
     def generatepw(self):
         from random import sample, randint
         lower = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
