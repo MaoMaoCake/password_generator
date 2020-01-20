@@ -55,6 +55,20 @@ class Ui_MainWindow(object):
         self.label.setText("")
         self.label.setObjectName("label")
 
+        self.estimate = QtWidgets.QLabel(self.centralwidget)
+        self.estimate.setGeometry(QtCore.QRect(450, 230, 291, 41))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.estimate.setFont(font)
+        self.estimate.setObjectName("estimate_time")
+
+        self.time_txt = QtWidgets.QLabel(self.centralwidget)
+        self.time_txt.setGeometry(QtCore.QRect(300, 200, 491, 41))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.time_txt.setFont(font)
+        self.time_txt.setObjectName("time txt")
+
         self.label2 = QtWidgets.QLabel(self.centralwidget)
         self.label2.setGeometry(QtCore.QRect(70, 400, 420, 41))
         font = QtGui.QFont()
@@ -75,7 +89,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        self.generate.clicked.connect(lambda: self.label.setText(self.generatepw()))
+        self.generate.clicked.connect(self.dual_funct)
         self.generate2.clicked.connect(self.filegen)
 
     def retranslateUi(self, MainWindow):
@@ -88,7 +102,11 @@ class Ui_MainWindow(object):
         self.generate2.setText(_translate("MainWindow","Generate to file"))
         self.label1.setText(_translate("MainWindow", "How many digits do you want?"))
         self.label2.setText(_translate("MainWindow", "do you want more than 1? (generates to a file)"))
+        self.time_txt.setText(_translate("MainWindow", "Estimated time needed to crack the password:"))
 
+    def dual_funct(self):
+        self.estimate.setText(str(self.estimate_time()) + " seconds")
+        self.label.setText(self.generatepw())
     def generatepw(self):
         from random import sample, randint
         lower = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
@@ -118,6 +136,7 @@ class Ui_MainWindow(object):
                 if num == 4:
                     if numcheck == True:
                         pw.append(sample(number, 1)[0])
+            self.estimate_time()
         except:
             QMessageBox.warning(self.window,"Generation Error", " Something went wrong please check your input and try again",
                             QMessageBox.Ok)
@@ -135,7 +154,7 @@ class Ui_MainWindow(object):
                 f.write("Please Change the file name before regenerating password if you want the file to be saved.\n")
                 while n < x :
                     n += 1
-                    f.write(str(n) +": " + self.generatepw())
+                    f.write(str(n) +": " + str(self.generatepw()) + "   Estimated Time to crack: " + str(self.estimate_time()))
                     f.write("\n")
 
             os.system("password.txt")
@@ -143,6 +162,27 @@ class Ui_MainWindow(object):
             QMessageBox.warning(self.window, "Generation Error", " Something went wrong please check your input and try again",
                             QMessageBox.Ok)
             self.times.setText("")
+
+    def estimate_time(self):
+        num = 26
+        password = self.label.text()
+        uppercase = self.uppercase.isChecked()
+        special = self.specialcharacter.isChecked()
+        number = self.number_box.isChecked()
+
+        if number == True:
+            num += 10
+        if special == True:
+            num += 30
+        if uppercase == True:
+            num += 26
+
+        possible = num ** len(password)
+        seconds = possible / 350000000000  # 350 billion
+
+        return seconds
+
+
 if __name__ == "__main__":
     import sys
 
